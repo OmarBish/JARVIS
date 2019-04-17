@@ -21,3 +21,10 @@
         }
     }
 </script>
+
+<style>
+    *{
+        color:blue;
+    }
+</style>
+
