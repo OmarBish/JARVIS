@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Test;
+use App\Client;
 
 use Validator;
 
@@ -23,9 +24,9 @@ class TestController extends BaseController
     public function index()
 
     {
-
-        $tests = Test::all();
-
+        $user = auth()->user();
+        $tests = $user->tests()->get();
+        
 
         return $this->sendResponse($tests->toArray(), 'Tests retrieved successfully.');
 
@@ -68,8 +69,8 @@ class TestController extends BaseController
 
         }
 
-
-        $test = Test::create($input);
+        $user = auth()->user();
+        $test = $user->tests()->create($input);
 
 
         return $this->sendResponse($test->toArray(), 'Test created successfully.');
@@ -91,12 +92,14 @@ class TestController extends BaseController
 
     {
 
-        $test = Test::find($id);
+        $user = auth()->user();
+        $test = $user->tests()->find($id);
+        
 
 
         if (is_null($test)) {
 
-            return $this->sendError('Test not found.');
+            return $this->sendError('Test not found or you dont have access to this test');
 
         }
 
@@ -123,10 +126,10 @@ class TestController extends BaseController
     public function update(Request $request, Test $test)
 
     {
-
+        
         $input = $request->all();
 
-
+        
         $validator = Validator::make($input, [
 
             'name' => 'required',
@@ -135,7 +138,7 @@ class TestController extends BaseController
 
             'credit' => 'required',
 
-            'tags' => 'required' 
+            // 'tags' => 'required' 
 
         ]);
 
@@ -151,7 +154,10 @@ class TestController extends BaseController
 
         $test->websiteUrl = $input['websiteUrl'];
         $test->credit = $input['credit'];
-        $test->tags = $input['tags'];
+        if(isset($input['tags'])){
+            $test->tags = $input['tags'];
+        }
+        
 
         $test->save();
 
