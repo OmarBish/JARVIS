@@ -20,6 +20,7 @@ class LoginController extends Controller
             // Authentication passed...
             return redirect()->intended('/home');
         }
+        return view('auth.login')->withErrors(['email'=>trans('auth.failed')],"email");
     }
     public function logout()
     {
