@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Controllers\Client\Auth;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+
+class RegisterController extends Controller
+{
+    public function showRegistrationForm()
+    {
+        
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        return app('App\Http\Controllers\API\RegisterController')->clientRegister($request);
+    }
+}

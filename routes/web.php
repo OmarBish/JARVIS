@@ -50,7 +50,7 @@ Route::prefix('client')->group(function () {
     Route::post('logout', 'Client\Auth\LoginController@logout')->name('logout');
     if ($options['register'] ?? true) {
         Route::get('register', 'Client\Auth\RegisterController@showRegistrationForm')->name('register');
-        Route::post('register', 'Client\Auth\RegisterController@clientRegister');
+        Route::post('register', 'Client\Auth\RegisterController@register');
     }
     // Password Reset Routes...
     if ($options['reset'] ?? true) {
