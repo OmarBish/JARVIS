@@ -25,10 +25,11 @@ Route::prefix('tester')->group(function () {
     Route::post('logout', 'Tester\Auth\LoginController@logout')->name('logout');
     if ($options['register'] ?? true) {
         Route::get('register', 'Tester\Auth\RegisterController@showRegistrationForm')->name('register');
-        Route::post('register', 'Tester\Auth\RegisterController@clientRegister');
+        Route::post('register', 'Tester\Auth\RegisterController@register');
     }
     // Password Reset Routes...
     if ($options['reset'] ?? true) {
+        //TODO
         Route::get('password/reset', 'Tester\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
         Route::post('password/email', 'Tester\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
         Route::get('password/reset/{token}', 'Tester\Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -36,6 +37,7 @@ Route::prefix('tester')->group(function () {
     }
     // Email Verification Routes...
     if ($options['verify'] ?? false) {
+        //TODO
         Route::get('email/verify', 'Tester\Auth\VerificationController@show')->name('verification.notice');
         Route::get('email/verify/{id}', 'Tester\Auth\VerificationController@verify')->name('verification.verify');
         Route::get('email/resend', 'Tester\Auth\VerificationController@resend')->name('verification.resend');
@@ -44,7 +46,7 @@ Route::prefix('tester')->group(function () {
 
 //client
 Route::prefix('client')->group(function () {
-    // Matches The "/tester/*" URL
+    // Matches The "/client/*" URL
     Route::get('login', 'Client\Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Client\Auth\LoginController@login');
     Route::post('logout', 'Client\Auth\LoginController@logout')->name('logout');
