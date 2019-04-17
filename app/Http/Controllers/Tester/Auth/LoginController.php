@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client\Auth;
+namespace App\Http\Controllers\Tester\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,11 +15,13 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        Auth::guard('web');
-        if (Auth::attempt($credentials)) {
+        
+        Auth::guard('tester');
+        if ( Auth::attempt($credentials)) {
             // Authentication passed...
             return redirect()->intended('/home');
         }
+        return view('auth.login')->withErrors(['email', trans('auth.failed')]);
     }
     public function logout()
     {

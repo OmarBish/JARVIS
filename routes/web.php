@@ -54,6 +54,7 @@ Route::prefix('client')->group(function () {
     }
     // Password Reset Routes...
     if ($options['reset'] ?? true) {
+        //TODO
         Route::get('password/reset', 'Client\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
         Route::post('password/email', 'Client\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
         Route::get('password/reset/{token}', 'Client\Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -61,6 +62,7 @@ Route::prefix('client')->group(function () {
     }
     // Email Verification Routes...
     if ($options['verify'] ?? false) {
+        //TODO
         Route::get('email/verify', 'Client\Auth\VerificationController@show')->name('verification.notice');
         Route::get('email/verify/{id}', 'Client\Auth\VerificationController@verify')->name('verification.verify');
         Route::get('email/resend', 'Client\Auth\VerificationController@resend')->name('verification.resend');
