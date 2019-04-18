@@ -6,22 +6,23 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 
+
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('tester.auth.login');
     }
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
         
-        Auth::guard('tester');
-        if ( Auth::attempt($credentials)) {
+        
+        if ( Auth::guard('tester')->attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/home');
+            return redirect()->intended('/tester/home');
         }
-        return view('auth.login')->withErrors(['email', trans('auth.failed')]);
+        return redirect()->back()->withErrors(['email'=>trans('auth.failed')]);
     }
     public function logout()
     {

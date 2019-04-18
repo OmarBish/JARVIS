@@ -30,6 +30,8 @@ class Client extends Authenticatable
         'password', 'remember_token',
     ];
 
+    
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -39,9 +41,15 @@ class Client extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * extra relations
+     */
+    public $type = "client";
+
     public function tests()
     {
         return $this->hasMany('App\Test');
     }
+     
     
 }

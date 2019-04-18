@@ -18,18 +18,19 @@ Route::get('/', function () {
 //i removed the  Auth::routes(); and echanged it with the values it point to 
 
 // Matches The "/tester/*" URL
+Route::resource('/tester', 'Tester\TesterController', ['except' => ['show']]);
 Route::prefix('tester')->group(function () {
     /**
      * login/logout
      */
-    Route::get('login', 'Tester\Auth\LoginController@showLoginForm')->name('login');
+    Route::get('login', 'Tester\Auth\LoginController@showLoginForm')->name('testerLogin');
     Route::post('login', 'Tester\Auth\LoginController@login');
-    Route::post('logout', 'Tester\Auth\LoginController@logout')->name('logout');
+    Route::post('logout', 'Tester\Auth\LoginController@logout')->name('testerLogout');
     /**
      * register
      */
     if ($options['register'] ?? true) {
-        Route::get('register', 'Tester\Auth\RegisterController@showRegistrationForm')->name('register');
+        Route::get('register', 'Tester\Auth\RegisterController@showRegistrationForm')->name('testerRegister');
         Route::post('register', 'Tester\Auth\RegisterController@register');
     }
     /**
@@ -54,18 +55,38 @@ Route::prefix('tester')->group(function () {
     /**
      * 
      */
+    
+
+    Route::group(['middleware' => 'auth:tester'], function () {
+        Route::get('profile', ['as' => 'profile.edit', 'uses' => 'Tester\ProfileController@edit']);
+        Route::put('profile', ['as' => 'profile.update', 'uses' => 'Tester\ProfileController@update']);
+        Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'Tester\ProfileController@password']);
+        Route::get('/home', 'HomeController@index')->name('testerHome');
+    });
 });
 
 //client
+Route::resource('/client', 'Client\ClientController', ['except' => ['show']]);
 Route::prefix('client')->group(function () {
     // Matches The "/client/*" URL
-    Route::get('login', 'Client\Auth\LoginController@showLoginForm')->name('login');
+
+    /**
+     * login
+     */
+    Route::get('login', 'Client\Auth\LoginController@showLoginForm')->name('clientLogin');
     Route::post('login', 'Client\Auth\LoginController@login');
-    Route::post('logout', 'Client\Auth\LoginController@logout')->name('logout');
+
+    Route::post('logout', 'Client\Auth\LoginController@logout')->name('clientLogout');
+
+    /**
+     * register
+     */
     if ($options['register'] ?? true) {
-        Route::get('register', 'Client\Auth\RegisterController@showRegistrationForm')->name('register');
+        Route::get('register', 'Client\Auth\RegisterController@showRegistrationForm')->name('clientRegister');
         Route::post('register', 'Client\Auth\RegisterController@register');
     }
+
+
     // Password Reset Routes...
     if ($options['reset'] ?? true) {
         //TODO
@@ -81,9 +102,25 @@ Route::prefix('client')->group(function () {
         Route::get('email/verify/{id}', 'Client\Auth\VerificationController@verify')->name('verification.verify');
         Route::get('email/resend', 'Client\Auth\VerificationController@resend')->name('verification.resend');
     }
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('profile', ['as' => 'tester.profile.edit', 'uses' => 'Client\ProfileController@edit']);
+        Route::put('profile', ['as' => 'profile.update', 'uses' => 'Client\ProfileController@update']);
+        Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'Client\ProfileController@password']);
+        Route::get('/home', 'HomeController@index')->name('clientHome');
+    });
+    
 });
 
+Route::get('/home', 'HomeController@setPath')->name('home');
 
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+
+
+
+
+

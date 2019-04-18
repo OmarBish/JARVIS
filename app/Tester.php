@@ -38,6 +38,7 @@ class Tester extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public $type ="tester";
     public function tests()
     {
         return $this->hasMany('App\Test');
