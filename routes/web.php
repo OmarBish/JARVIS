@@ -17,17 +17,24 @@ Route::get('/', function () {
 
 //i removed the  Auth::routes(); and echanged it with the values it point to 
 
-//tester
+// Matches The "/tester/*" URL
 Route::prefix('tester')->group(function () {
-    // Matches The "/tester/*" URL
+    /**
+     * login/logout
+     */
     Route::get('login', 'Tester\Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Tester\Auth\LoginController@login');
     Route::post('logout', 'Tester\Auth\LoginController@logout')->name('logout');
+    /**
+     * register
+     */
     if ($options['register'] ?? true) {
         Route::get('register', 'Tester\Auth\RegisterController@showRegistrationForm')->name('register');
         Route::post('register', 'Tester\Auth\RegisterController@register');
     }
-    // Password Reset Routes...
+    /**
+     * resetPassword
+     */
     if ($options['reset'] ?? true) {
         //TODO
         Route::get('password/reset', 'Tester\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -35,13 +42,18 @@ Route::prefix('tester')->group(function () {
         Route::get('password/reset/{token}', 'Tester\Auth\ResetPasswordController@showResetForm')->name('password.reset');
         Route::post('password/reset', 'Tester\Auth\ResetPasswordController@reset')->name('password.update');
     }
-    // Email Verification Routes...
+    /**
+     * Email verfiy 
+     */
     if ($options['verify'] ?? false) {
         //TODO
         Route::get('email/verify', 'Tester\Auth\VerificationController@show')->name('verification.notice');
         Route::get('email/verify/{id}', 'Tester\Auth\VerificationController@verify')->name('verification.verify');
         Route::get('email/resend', 'Tester\Auth\VerificationController@resend')->name('verification.resend');
     }
+    /**
+     * 
+     */
 });
 
 //client

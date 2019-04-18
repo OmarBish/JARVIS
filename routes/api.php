@@ -23,6 +23,11 @@ Route::post('tester/register', 'API\RegisterController@testerRegister');
 
 Route::middleware('auth:api')->group( function () {
 
-	Route::resource('tests', 'API\TestController');
-
+    Route::resource('tests', 'API\TestController');
+    
+    //TODO
+    Route::resource('testResults', 'API\TestResultsController');
+    Route::resource('testCaseAnswer', 'API\TestCaseAnswer');
+    Route::resource('testCase', 'API\TestCaseController');
+    Route::resource('testCaseReview', 'API\TestCaseReviewController');
 });
