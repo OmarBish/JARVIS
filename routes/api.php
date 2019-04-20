@@ -37,5 +37,5 @@ Route::prefix('client')->group(function () {
     /**
      * login
      */
-    Route::get('login', 'Client\Auth\LoginController@showLoginForm')->name('clientLogin');
+    Route::post('login', 'Client\Auth\LoginController@showLoginForm')->name('clientLogin');
 });
