@@ -38,19 +38,19 @@ Route::prefix('tester')->group(function () {
      */
     if ($options['reset'] ?? true) {
         //TODO
-        Route::get('password/reset', 'Tester\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        Route::post('password/email', 'Tester\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        Route::get('password/reset/{token}', 'Tester\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        Route::post('password/reset', 'Tester\Auth\ResetPasswordController@reset')->name('password.update');
+        // Route::get('password/reset', 'Tester\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        // Route::post('password/email', 'Tester\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        // Route::get('password/reset/{token}', 'Tester\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        // Route::post('password/reset', 'Tester\Auth\ResetPasswordController@reset')->name('password.update');
     }
     /**
      * Email verfiy 
      */
     if ($options['verify'] ?? false) {
         //TODO
-        Route::get('email/verify', 'Tester\Auth\VerificationController@show')->name('verification.notice');
-        Route::get('email/verify/{id}', 'Tester\Auth\VerificationController@verify')->name('verification.verify');
-        Route::get('email/resend', 'Tester\Auth\VerificationController@resend')->name('verification.resend');
+        // Route::get('email/verify', 'Tester\Auth\VerificationController@show')->name('verification.notice');
+        // Route::get('email/verify/{id}', 'Tester\Auth\VerificationController@verify')->name('verification.verify');
+        // Route::get('email/resend', 'Tester\Auth\VerificationController@resend')->name('verification.resend');
     }
     /**
      * 
@@ -62,6 +62,8 @@ Route::prefix('tester')->group(function () {
         Route::put('profile', ['as' => 'profile.update', 'uses' => 'Tester\ProfileController@update']);
         Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'Tester\ProfileController@password']);
         Route::get('/home', 'HomeController@index')->name('testerHome');
+       
+        Route::resource('/client', 'Client\ClientController', ['except' => ['delete','']]);
     });
 });
 
@@ -90,17 +92,17 @@ Route::prefix('client')->group(function () {
     // Password Reset Routes...
     if ($options['reset'] ?? true) {
         //TODO
-        Route::get('password/reset', 'Client\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        Route::post('password/email', 'Client\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        Route::get('password/reset/{token}', 'Client\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        Route::post('password/reset', 'Client\Auth\ResetPasswordController@reset')->name('password.update');
+        // Route::get('password/reset', 'Client\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        // Route::post('password/email', 'Client\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+        // Route::get('password/reset/{token}', 'Client\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        // Route::post('password/reset', 'Client\Auth\ResetPasswordController@reset')->name('password.update');
     }
     // Email Verification Routes...
     if ($options['verify'] ?? false) {
         //TODO
-        Route::get('email/verify', 'Client\Auth\VerificationController@show')->name('verification.notice');
-        Route::get('email/verify/{id}', 'Client\Auth\VerificationController@verify')->name('verification.verify');
-        Route::get('email/resend', 'Client\Auth\VerificationController@resend')->name('verification.resend');
+        // Route::get('email/verify', 'Client\Auth\VerificationController@show')->name('verification.notice');
+        // Route::get('email/verify/{id}', 'Client\Auth\VerificationController@verify')->name('verification.verify');
+        // Route::get('email/resend', 'Client\Auth\VerificationController@resend')->name('verification.resend');
     }
 
     Route::group(['middleware' => 'auth'], function () {
@@ -108,13 +110,15 @@ Route::prefix('client')->group(function () {
         Route::put('profile', ['as' => 'profile.update', 'uses' => 'Client\ProfileController@update']);
         Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'Client\ProfileController@password']);
         Route::get('/home', 'HomeController@index')->name('clientHome');
+        Route::resource('/test', 'Client\ClientController');
+        
     });
     
 });
 
 Route::get('/home', 'HomeController@setPath')->name('home');
 
-
+Route::resource('test', 'Tester\TestController');
 
 
 

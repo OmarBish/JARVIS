@@ -20,9 +20,9 @@ class LoginController extends Controller
         
         if (Auth::guard('web')->attempt($credentials)) {
             // Authentication passed...
-            return redirect()->intended('/client/home');
+            return $this->sendResponse($success, 'Client register successfully.');
         }
-        return Redirect::back()->withErrors(['email'=>trans('auth.failed')]);
+        return $this->sendError('Validation Error.', ['email'=>trans('auth.failed')]);
         
     }
     public function logout()
