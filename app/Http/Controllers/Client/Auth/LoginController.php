@@ -20,7 +20,7 @@ class LoginController extends Controller
         
         if (Auth::guard('web')->attempt($credentials)) {
             // Authentication passed...
-            return $this->sendResponse($success, 'Client register successfully.');
+            return $this->sendResponse('Login succeded', 'Client register successfully.');
         }
         return $this->sendError('Validation Error.', ['email'=>trans('auth.failed')]);
         
