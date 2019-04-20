@@ -31,3 +31,11 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('testCase', 'API\TestCaseController');
     Route::resource('testCaseReview', 'API\TestCaseReviewController');
 });
+Route::prefix('client')->group(function () {
+    // Matches The "/client/*" URL
+
+    /**
+     * login
+     */
+    Route::get('login', 'Client\Auth\LoginController@showLoginForm')->name('clientLogin');
+}
