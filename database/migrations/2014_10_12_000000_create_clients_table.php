@@ -20,6 +20,8 @@ class CreateClientsTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedInteger('credits')->default(0);
+            $table->text('about_me')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
