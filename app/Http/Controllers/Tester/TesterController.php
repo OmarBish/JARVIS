@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Tester;
 
 use App\Tester;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+
+use Validator;
+
 
 class TesterController extends Controller
 {
@@ -15,9 +19,10 @@ class TesterController extends Controller
      * @param  \App\Tester  $model
      * @return \Illuminate\View\View
      */
-    public function index(Tester $model)
+    public function index(Tester $testers)
     {
-        return view('tester.index', ['testers' => $model->paginate(15)]);
+        $data = ['testers' => $testers->paginate(15)];
+        return $this->sendResponse($data,"Retrive all clients");
     }
 
     /**
@@ -25,9 +30,9 @@ class TesterController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function show(Tester $tester)
     {
-        return view('testers.create');
+        return $this->sendResponse($tester,"Retrive client");
     }
 
     /**
@@ -37,24 +42,54 @@ class TesterController extends Controller
      * @param  \App\Tester  $model
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(UserRequest $request, Tester $model)
+    public function store(Request $request)
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        
+        /**
+         * 1- check validation
+         * 2- check if exist
+         * 3- regisiter
+         */
+        $validator = Validator::make($request->all(), [
 
-        return redirect()->route('tester.index')->withStatus(__('Tester successfully created.'));
+            'name' => 'required',
+
+            'email' => 'required|email',
+
+            'password' => 'required',
+
+            'c_password' => 'required|same:password',
+
+        ]);
+
+
+        if($validator->fails()){
+
+            return $this->sendError('Validation Error.', $validator->errors());       
+
+        }
+
+        $tester = Tester::where('email',$request->email)->first();
+        
+        if(isSet($tester)){
+            return $this->sendError('Tester already exist', "Tester already exist");       
+        }
+
+        $input = $request->all();
+
+        $input['password'] = bcrypt($input['password']);
+
+        $tester = Tester::create($input);
+
+        $success['token'] =  $tester->createToken('MyApp')->accessToken;
+
+        $success['name'] =  $tester->name;
+
+
+        return $this->sendResponse($tester, 'Tester register successfully.');
     }
 
-    /**
-     * Show the form for editing the specified user
-     *
-     * @param  \App\Tester  $tester
-     * @return \Illuminate\View\View
-     */
-    public function edit(Tester $tester)
-    {
-        return view('tester.edit', compact('user'));
-    }
-
+    
     /**
      * Update the specified user in storage
      *
@@ -62,14 +97,14 @@ class TesterController extends Controller
      * @param  \App\Tester  $tester
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, Tester  $tester)
+    public function update(Request $request, Tester  $tester)
     {
         $tester->update(
             $request->merge(['password' => Hash::make($request->get('password'))])
                 ->except([$request->get('password') ? '' : 'password']
         ));
-
-        return redirect()->route('tester.index')->withStatus(__('Tester successfully updated.'));
+       
+       return  $this->sendResponse($tester,"update client");
     }
 
     /**
@@ -82,6 +117,6 @@ class TesterController extends Controller
     {
         $tester->delete();
 
-        return redirect()->route('tester.index')->withStatus(__('Tester successfully deleted.'));
+        return  $this->sendResponse("success","tester deleted");
     }
 }

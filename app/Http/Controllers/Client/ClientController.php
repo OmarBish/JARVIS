@@ -1,11 +1,17 @@
 <?php
-
+//App\Http\Controllers\Client\ClientController
 namespace App\Http\Controllers\Client;
 
 use App\Client;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Client\AuthController;
+
+use Validator;
+
 
 class ClientController extends Controller
 {
@@ -17,18 +23,22 @@ class ClientController extends Controller
      */
     public function index(Client $model)
     {
-        return view('client.index', ['clients' => $model->paginate(15)]);
+        $data = ['clients' => $model->paginate(15)];
+        return $this->sendResponse($data,"Retrive all clients");
     }
 
     /**
-     * Show the form for creating a new user
+     * Display a listing of the clients
      *
+     * @param  \App\Client  $model
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function show(Client $client)
     {
-        return view('client.create');
+        return $this->sendResponse($client,"Retrive client");
     }
+
+
 
     /**
      * Store a newly created user in storage
@@ -37,23 +47,49 @@ class ClientController extends Controller
      * @param  \App\Client  $model
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(UserRequest $request, Client $model)
+    public function store(Request $request)
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $validator = Validator::make($request->all(), [
 
-        return redirect()->route('client.index')->withStatus(__('Client successfully created.'));
+            'name' => 'required',
+
+            'email' => 'required|email',
+
+            'password' => 'required',
+
+            'c_password' => 'required|same:password',
+
+        ]);
+
+
+        if($validator->fails()){
+
+            return $this->sendError('Validation Error.', $validator->errors());       
+
+        }
+
+
+        $client = Client::where('email',$request->email)->first();
+        
+        if(isSet($client)){
+            return $this->sendError('Client already exist', "Client already exist");       
+        }
+
+        $input = $request->all();
+
+        $input['password'] = bcrypt($input['password']);
+
+        $client = Client::create($input);
+
+        $success['token'] =  $client->createToken('MyApp')->accessToken;
+
+        $success['name'] =  $client->name;
+
+
+        return $this->sendResponse($client, 'Client register successfully.');
+
     }
 
-    /**
-     * Show the form for editing the specified user
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\View\View
-     */
-    public function edit(Client $client)
-    {
-        return view('client.edit', compact('user'));
-    }
 
     /**
      * Update the specified user in storage
@@ -62,14 +98,15 @@ class ClientController extends Controller
      * @param  \App\Client  $client
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, Client  $client)
+    public function update(Request $request, Client  $client)
     {
-        $client->update(
-            $request->merge(['password' => Hash::make($request->get('password'))])
-                ->except([$request->get('password') ? '' : 'password']
-        ));
-
-        return redirect()->route('client.index')->withStatus(__('Client successfully updated.'));
+        
+         $client->update(
+             $request->merge(['password' => Hash::make($request->get('password'))])
+                 ->except([$request->get('password') ? '' : 'password']
+         ));
+        
+        return  $this->sendResponse($client,"update client");
     }
 
     /**
@@ -82,6 +119,6 @@ class ClientController extends Controller
     {
         $client->delete();
 
-        return redirect()->route('client.index')->withStatus(__('Client successfully deleted.'));
+        return  $this->sendResponse("success","client deleted");
     }
 }
