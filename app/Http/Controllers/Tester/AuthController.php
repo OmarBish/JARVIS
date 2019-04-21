@@ -11,6 +11,12 @@ use Validator;
 
 class AuthController extends Controller
 {
+    //TODO
+    public function __construct(){
+            // $this->middleware('guest')->except();
+            // $this->middleware('guest:client')->except('');
+            // $this->middleware('guest:tester')->except('');
+    }
     public function login(Request $request)
     {
         /**
@@ -20,9 +26,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-
             'password' => 'required',
-
         ]);
 
         if($validator->fails()){
@@ -37,7 +41,7 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
-        return app('App\Http\Controllers\Tester\TesterController')->store($request);
+        return app('App\Http\Controllers\API\TesterController')->store($request);
     }
     public function logout()
     {

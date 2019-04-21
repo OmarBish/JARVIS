@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Tester;
+namespace App\Http\Controllers\API;
 
 use App\Tester;
 use App\Http\Requests\UserRequest;
@@ -11,8 +11,14 @@ use App\Http\Controllers\Controller;
 use Validator;
 
 
-class TesterController extends Controller
+class TesterController extends BaseController
 {
+    //TODO
+    public function __construct(){
+        // $this->middleware('guest')->except();
+        // $this->middleware('guest:client')->except('');
+        // $this->middleware('guest:tester')->except('');
+    }
     /**
      * Display a listing of the clients
      *

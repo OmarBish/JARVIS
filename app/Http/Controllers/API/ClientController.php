@@ -1,6 +1,6 @@
 <?php
 //App\Http\Controllers\Client\ClientController
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\API;
 
 use App\Client;
 use App\Http\Requests\UserRequest;
@@ -13,8 +13,14 @@ use App\Http\Controllers\Client\AuthController;
 use Validator;
 
 
-class ClientController extends Controller
+class ClientController extends BaseController
 {
+    //TODO
+    public function __construct(){
+        // $this->middleware('guest')->except();
+        // $this->middleware('guest:client')->except('');
+        // $this->middleware('guest:tester')->except('');
+    }
     /**
      * Display a listing of the clients
      *

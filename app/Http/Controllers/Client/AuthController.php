@@ -11,6 +11,12 @@ use App\Client;
 
 class AuthController extends Controller
 {
+    //TODO
+    public function __construct(){
+        // $this->middleware('guest')->except();
+        // $this->middleware('guest:client')->except('');
+        // $this->middleware('guest:tester')->except('');
+    }
     public function login(Request $request)
     {
         /**
@@ -41,7 +47,7 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
-        return app('App\Http\Controllers\Client\ClientController')->store($request);         
+        return app('App\Http\Controllers\API\ClientController')->store($request);         
     }
     public function logout()
     {

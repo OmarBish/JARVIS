@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group( function () {
     Route::resource('testCase', 'API\TestCaseController');
     Route::resource('testCaseReview', 'API\TestCaseReviewController');
 });
+Route::resource('client', 'API\ClientController',['except' => ['create']]);
+Route::resource('tester', 'API\TesterController',['except' => ['create']]);
 
 
 

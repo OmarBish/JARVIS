@@ -138,8 +138,6 @@ Route::prefix('tester')->group(function () {
     Route::post('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
 });
 
-Route::resource('client', 'Client\ClientController',['except' => ['create']]);
-Route::resource('tester', 'Tester\TesterController',['except' => ['create']]);
 
 
 
