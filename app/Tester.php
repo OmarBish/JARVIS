@@ -39,8 +39,8 @@ class Tester extends Authenticatable
     ];
 
     public $type ="tester";
-    public function tests()
+    public function testResults()
     {
-        return $this->hasMany('App\Test');
+        return $this->hasMany('App\TestResult');
     }
 }

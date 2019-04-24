@@ -20,12 +20,12 @@ Route::middleware('auth:client')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('test', 'API\TestController');
+Route::resource('test', 'API\TestController',['except' => ['create']]);
+Route::resource('testResult', 'API\TestResultsController',['except' => ['create']]);
 
 Route::middleware('auth:api')->group( function () {
 
     //TODO
-    Route::resource('testResults', 'API\TestResultsController');
     Route::resource('testCaseAnswer', 'API\TestCaseAnswer');
     Route::resource('testCase', 'API\TestCaseController');
     Route::resource('testCaseReview', 'API\TestCaseReviewController');
