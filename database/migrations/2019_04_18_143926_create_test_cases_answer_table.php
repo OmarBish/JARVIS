@@ -15,6 +15,9 @@ class CreateTestCasesAnswerTable extends Migration
     {
         Schema::create('test_cases_answer', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('question');
+            $table->string('answer');
+            $table->string('testResult');
             $table->timestamps();
         });
     }
