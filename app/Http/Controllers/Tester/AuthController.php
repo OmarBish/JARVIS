@@ -37,7 +37,7 @@ class AuthController extends Controller
             return $this->sendError('Invalid credentials','Invalid credentials');
         }
 
-        $user = $request->user();
+        $user = Auth::guard('wTester')->user();
 
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;

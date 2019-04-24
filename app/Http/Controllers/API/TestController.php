@@ -179,15 +179,17 @@ class TestController extends BaseController
 
      */
 
-    public function destroy(Test $test)
+    public function destroy(Request $req,Test $test)
 
     {
-
+        $user = auth()->user();
+        if($user->tests()->find($test->id)){
+            $test->delete();
+            return $this->sendResponse($test->toArray(), 'Test deleted successfully.');
+        }else{
+            return $this->sendError('access error', 'either you dont have access to this record or it was deleted');
+        }
         $test->delete();
-
-
-        return $this->sendResponse($test->toArray(), 'Test deleted successfully.');
-
     }
 }
 
