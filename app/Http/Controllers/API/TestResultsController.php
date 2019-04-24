@@ -21,11 +21,14 @@ class TestResultsController extends Controller
      */
     //TODO
     public function __construct(){
-        $this->middleware('auth:tester');
+        $this->middleware(['auth:tester', 'auth:client','scope:tester,client']);
     }
     public function index(Request $request)
     {
-        $user = auth()->user();
+        
+        //$user = auth()->user()->tokenCan('tester');
+       // dd(auth()->guard('tester')->user());
+       $user = auth()->guard('tester')->user();
         $testResutls = $user->testResults()->get();
         return $this->sendResponse($testResutls->toArray(), 'testResutls fetched successfully.');        
     }
