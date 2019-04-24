@@ -19,6 +19,7 @@ class CreateTestsTable extends Migration
             $table->string('websiteUrl');
             $table->double('credit',10,2);
             $table->string('tags');
+            $table->string('post_url');
             $table->integer('client_id');
             $table->timestamps();
         });
