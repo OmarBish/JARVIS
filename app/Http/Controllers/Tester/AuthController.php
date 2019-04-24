@@ -39,7 +39,7 @@ class AuthController extends Controller
 
         $user = Auth::guard('wTester')->user();
 
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('Personal Access Token',['tester']);
         $token = $tokenResult->token;
 
         if ($request->remember_me)
