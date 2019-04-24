@@ -14,11 +14,12 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        //TODO set unauthrised route
         if (! $request->expectsJson()) {
             if(strpos($request->path(),"tester") === false){
-                return route('clientLogin');
+                return route('home');
             }else{
-                return route('testerLogin');
+                return route('home');
             }
             
         }

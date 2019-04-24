@@ -17,9 +17,8 @@ class ClientController extends BaseController
 {
     //TODO
     public function __construct(){
-        // $this->middleware('guest')->except();
-        // $this->middleware('guest:client')->except('');
-        // $this->middleware('guest:tester')->except('');
+        $this->middleware('auth:client')->except('store');
+        $this->middleware('guest')->only('store');
     }
     /**
      * Display a listing of the clients

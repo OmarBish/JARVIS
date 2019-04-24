@@ -15,15 +15,15 @@ header('Access-Control-Allow-Origin:  *');
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:client')->get('/user', function (Request $request) {
+    return $request->user()->token();
 });
 
 
+Route::resource('test', 'API\TestController');
 
 Route::middleware('auth:api')->group( function () {
 
-    Route::resource('tests', 'API\TestController');
     //TODO
     Route::resource('testResults', 'API\TestResultsController');
     Route::resource('testCaseAnswer', 'API\TestCaseAnswer');

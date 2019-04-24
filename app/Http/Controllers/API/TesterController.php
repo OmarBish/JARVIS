@@ -15,9 +15,8 @@ class TesterController extends BaseController
 {
     //TODO
     public function __construct(){
-        // $this->middleware('guest')->except();
-        // $this->middleware('guest:client')->except('');
-        // $this->middleware('guest:tester')->except('');
+        $this->middleware('guest')->only('store');
+        $this->middleware('auth:tester')->except('store');
     }
     /**
      * Display a listing of the clients

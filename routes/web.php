@@ -124,7 +124,7 @@ Route::prefix('client')->group(function () {
      * auth
      */
     Route::post('login', 'Client\AuthController@login')->name('Client-Login');
-    Route::post('logout', 'Client\AuthController@logout')->name('Client-Logout');
+    Route::get('logout', 'Client\AuthController@logout')->name('Client-Logout');
     Route::post('register', 'Client\AuthController@register')->name('Client-Logout');
 
 });
@@ -135,7 +135,7 @@ Route::prefix('tester')->group(function () {
      */
     Route::post('login', 'Tester\AuthController@login')->name('Tester-Login');
     Route::post('/register', 'Tester\AuthController@register')->name('Tester-Register');
-    Route::post('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
+    Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
 });
 
 

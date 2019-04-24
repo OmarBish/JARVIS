@@ -40,14 +40,21 @@ return [
             'driver' => 'session',
             'provider' => 'clients',
         ],
+        'wClient' => [
+            'driver' => 'session',
+            'provider' => 'clients',
+        ],
+        'wTester' => [
+            'driver' => 'session',
+            'provider' => 'testers',
+        ],
         'client' => [
             'driver' => 'passport',
             'provider' => 'clients',
         ],
-
         'api' => [
             'driver' => 'passport',
-            'provider' => 'users',
+            'provider' => 'clients',
             // 'hash' => false,
         ],
         'tester' => [
