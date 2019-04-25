@@ -16,12 +16,7 @@ class Authenticate extends Middleware
     {
         //TODO set unauthrised route
         if (! $request->expectsJson()) {
-            if(strpos($request->path(),"tester") === false){
-                return route('home');
-            }else{
-                return route('home');
-            }
-            
+            return response()->json("Unauthenticated :(", 403);
         }
     }
 }
