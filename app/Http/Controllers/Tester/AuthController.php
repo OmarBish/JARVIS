@@ -63,7 +63,7 @@ class AuthController extends Controller
     {
         return app('App\Http\Controllers\API\TesterController')->store($request);
     }
-    public function logout()
+    public function logout(Request $request)
     {
         
         $request->user()->token()->revoke();
