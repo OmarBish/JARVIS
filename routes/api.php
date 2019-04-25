@@ -22,11 +22,11 @@ Route::middleware('auth:client')->get('/user', function (Request $request) {
 
 Route::resource('test', 'API\TestController',['except' => ['create']]);
 Route::resource('testResult', 'API\TestResultsController',['except' => ['create']]);
+Route::resource('testResult/{testResult}/testCaseAnswer', 'API\TestCaseAnswerController',['except' => ['create']]);
 
 Route::middleware('auth:api')->group( function () {
 
     //TODO
-    Route::resource('testCaseAnswer', 'API\TestCaseAnswer');
     Route::resource('testCase', 'API\TestCaseController');
     Route::resource('testCaseReview', 'API\TestCaseReviewController');
 });

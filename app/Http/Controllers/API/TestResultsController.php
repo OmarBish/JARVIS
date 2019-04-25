@@ -25,12 +25,17 @@ class TestResultsController extends Controller
     }
     public function index(Request $request)
     {
+        //TODO fix client
+        if(auth()->user()->tokenCan('tester')){
+            $user = auth()->guard('tester')->user();
+            $testResutls = $user->testResults()->get();
+            return $this->sendResponse($testResutls->toArray(), 'testResutls fetched successfully.');
+        }else{
+            dd("hi");
+        }
         
-        //$user = auth()->user()->tokenCan('tester');
-       // dd(auth()->guard('tester')->user());
-       $user = auth()->guard('tester')->user();
-        $testResutls = $user->testResults()->get();
-        return $this->sendResponse($testResutls->toArray(), 'testResutls fetched successfully.');        
+        
+               
     }
 
     /**
@@ -55,7 +60,7 @@ class TestResultsController extends Controller
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-        $user = auth()->user();
+        $user = auth()->guard('tester')->user();
         $testResult = $user->testResults()->create([
             'videoURL' => $input['videoURL'],
             'tester_id' => $user->id

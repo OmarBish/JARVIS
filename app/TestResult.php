@@ -10,7 +10,7 @@ class TestResult extends Model
         'videoURL',
     ];
 
-    public function testCaesesAnswers()
+    public function testCaseAnswers()
     {
         return $this->hasMany('App\TestCaseAnswer');
     }

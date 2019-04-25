@@ -13,11 +13,11 @@ class CreateTestCasesAnswerTable extends Migration
      */
     public function up()
     {
-        Schema::create('test_cases_answer', function (Blueprint $table) {
+        Schema::create('test_case_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('question');
             $table->string('answer');
-            $table->string('testResult');
+            $table->integer('test_result_id');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTestCasesAnswerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('test_cases_answer');
+        Schema::dropIfExists('test_cases_answers');
     }
 }
