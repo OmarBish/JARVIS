@@ -11,25 +11,21 @@ use Validator;
 
 class TestController extends BaseController
 {
-    /**
 
-     * Display a listing of the resource.
+    public function __construct(){
+        $this->middleware(['auth:api','scope:tester'])->only(['index']);
+        $this->middleware(['auth:api','scope:client'])->only(['store']);
+        $this->middleware(['auth:api','scope:client,tester'])->only(['show']);
+        $this->middleware(['auth:api','scope:client'])->only(['update']);
+        $this->middleware(['auth:api','scope:client'])->only(['destroy']);
+    }
+    
 
-     *
-
-     * @return \Illuminate\Http\Response
-
-     */
-
-    public function index()
-
-    {
-        $user = auth()->user();
+    public function index(Request $request)
+    {   
+        $user = auth()->guard('tester')->user();
         $tests = $user->tests()->get();
-        
-
         return $this->sendResponse($tests->toArray(), 'Tests retrieved successfully.');
-
     }
 
     /**
@@ -58,6 +54,7 @@ class TestController extends BaseController
             'websiteUrl' => 'required',
 
             'credit' => 'required',
+            'post_url' => 'url',
 
             'tags' => 'required'    
         ]);
@@ -69,7 +66,7 @@ class TestController extends BaseController
 
         }
 
-        $user = auth()->user();
+        $user = auth()->guard('client')->user();
         $test = $user->tests()->create($input);
 
 
@@ -92,15 +89,17 @@ class TestController extends BaseController
 
     {
 
-        $user = auth()->user();
+        if(auth()->user()->tokenCan('tester'))
+            $user = auth()->guard('tester')->user();
+        else
+            $user = auth()->guard('client')->user();
+
         $test = $user->tests()->find($id);
         
 
 
         if (is_null($test)) {
-
             return $this->sendError('Test not found or you dont have access to this test');
-
         }
 
 
@@ -148,7 +147,13 @@ class TestController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
 
         }
+       
+        $user = auth()->guard('client')->user();
 
+        $test = $user->tests()->find($test->id);
+        if (is_null($test)) {
+            return $this->sendError('Test not found or you dont have access to this test');
+        }
 
         $test->name = $input['name'];
 
@@ -157,11 +162,11 @@ class TestController extends BaseController
         if(isset($input['tags'])){
             $test->tags = $input['tags'];
         }
+        if(isset($input['pst_url'])){
+            $test->tags = $input['post_url'];
+        }
         
-
         $test->save();
-
-
         return $this->sendResponse($test->toArray(), 'Test updated successfully.');
 
     }
@@ -182,14 +187,18 @@ class TestController extends BaseController
     public function destroy(Request $req,Test $test)
 
     {
-        $user = auth()->user();
-        if($user->tests()->find($test->id)){
-            $test->delete();
-            return $this->sendResponse($test->toArray(), 'Test deleted successfully.');
-        }else{
+        $user = auth()->guard('client')->user();
+        try{
+            if($user->tests()->find($test->id)){
+                $test->delete();
+                return $this->sendResponse("", 'Test deleted successfully.');
+            }else{
+                return $this->sendError('access error', 'either you dont have access to this record or it was deleted');
+            }
+        }catch(Exception $x){
             return $this->sendError('access error', 'either you dont have access to this record or it was deleted');
         }
-        $test->delete();
+        
     }
 }
 

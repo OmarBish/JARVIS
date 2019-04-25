@@ -8,7 +8,10 @@ class Test extends Model
 {
     protected $fillable = [
 
-        'name', 'websiteUrl','credit','tags'
+        'name', 'websiteUrl','credit','tags','post_url'
 
     ];
+
+    
 }
+

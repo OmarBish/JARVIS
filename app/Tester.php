@@ -17,7 +17,7 @@ class Tester extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -42,5 +42,9 @@ class Tester extends Authenticatable
     public function testResults()
     {
         return $this->hasMany('App\TestResult');
+    }
+    public function tests()
+    {
+        return $this->hasMany('App\Test','client_id');
     }
 }
