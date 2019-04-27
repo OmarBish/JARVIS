@@ -59,6 +59,9 @@ class ResetPasswordController extends Controller
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $user = Client::where('email', $request->input('email'))->first();
+        if(!isset($user)){
+            $this->sendError('invalid email', "email dosent exist");
+        }
         $password = $request->password;
         $response = Password::reset(
             $this->credentials($request), function ($user, $password) {

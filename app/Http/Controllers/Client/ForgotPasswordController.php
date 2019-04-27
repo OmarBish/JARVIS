@@ -37,6 +37,9 @@ class ForgotPasswordController extends Controller
     public function sendEmail(Request $request)
     {
         $user = Client::where('email', $request->input('email'))->first();
+        if(!isset($user)){
+            $this->sendError('invalid email', "email dosent exist");
+        }
         $token = Password::getRepository()->create($user);
 
         Mail::raw($token, function (Message $message) use ($user) {

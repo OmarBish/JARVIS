@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Tester;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use App\Client;
+use App\Tester;
 use Mail;
 use Illuminate\Mail\Message;
 
@@ -37,6 +37,9 @@ class ForgotPasswordController extends Controller
     public function sendEmail(Request $request)
     {
         $user = Tester::where('email', $request->input('email'))->first();
+        if(!isset($user)){
+            $this->sendError('invalid email', "email dosent exist");
+        }
         $token = Password::getRepository()->create($user);
 
         Mail::raw($token, function (Message $message) use ($user) {

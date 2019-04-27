@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Tester;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use App\Client;
+use App\Tester;
 use Validator;
 
 use Illuminate\Support\Facades\Password;
@@ -59,6 +59,9 @@ class ResetPasswordController extends Controller
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
         $user = Tester::where('email', $request->input('email'))->first();
+        if(!isset($user)){
+            $this->sendError('invalid email', "email dosent exist");
+        }
         $password = $request->password;
         $response = Password::reset(
             $this->credentials($request), function ($user, $password) {
