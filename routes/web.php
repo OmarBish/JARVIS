@@ -37,6 +37,8 @@ Route::prefix('tester')->group(function () {
     Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
 });
 
+Route::get('paypal-confirm', 'PayPalController@confirm')->name('Client-Login');
+
 
 
 
