@@ -43,6 +43,7 @@ class ForgotPasswordController extends Controller
             $message->subject(config('app.name') . ' Password Reset Link');
             $message->to($user->email);
         });
+        return $this->sendResponse('', 'password token successfuly send changed');
     }
 
 }
