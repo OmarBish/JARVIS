@@ -38,8 +38,9 @@ class ForgotPasswordController extends Controller
     {
         $user = Tester::where('email', $request->input('email'))->first();
         if(!isset($user)){
-            $this->sendError('invalid email', "email dosent exist");
+            return $this->sendError('invalid email', "email dosent exist");
         }
+        
         $token = Password::getRepository()->create($user);
 
         Mail::raw($token, function (Message $message) use ($user) {

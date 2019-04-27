@@ -38,7 +38,7 @@ class ForgotPasswordController extends Controller
     {
         $user = Client::where('email', $request->input('email'))->first();
         if(!isset($user)){
-            $this->sendError('invalid email', "email dosent exist");
+            return $this->sendError('invalid email', "email dosent exist");
         }
         $token = Password::getRepository()->create($user);
 

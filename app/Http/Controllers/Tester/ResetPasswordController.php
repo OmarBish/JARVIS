@@ -60,7 +60,7 @@ class ResetPasswordController extends Controller
         // database. Otherwise we will parse the error and return the response.
         $user = Tester::where('email', $request->input('email'))->first();
         if(!isset($user)){
-            $this->sendError('invalid email', "email dosent exist");
+            return $this->sendError('invalid email', "email dosent exist");
         }
         $password = $request->password;
         $response = Password::reset(
