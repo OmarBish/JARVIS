@@ -13,7 +13,7 @@ class TestController extends BaseController
 {
 
     public function __construct(){
-        $this->middleware(['auth:api','scope:tester'])->only(['index']);
+        $this->middleware(['auth:api','scope:tester,client'])->only(['index']);
         $this->middleware(['auth:api','scope:client'])->only(['store']);
         $this->middleware(['auth:api','scope:client,tester'])->only(['show']);
         $this->middleware(['auth:api','scope:client'])->only(['update']);
@@ -89,12 +89,12 @@ class TestController extends BaseController
 
     {
 
-        if(auth()->user()->tokenCan('tester'))
-            $user = auth()->guard('tester')->user();
-        else
-            $user = auth()->guard('client')->user();
+        // if(auth()->user()->tokenCan('tester'))
+        //     $user = auth()->guard('tester')->user();
+        // else
+        //     $user = auth()->guard('client')->user();
 
-        $test = $user->tests()->find($id);
+        $test =Test::find($id);
         
 
 

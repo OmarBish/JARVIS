@@ -11,6 +11,10 @@ class Test extends Model
         'name', 'websiteUrl','credit','tags','post_url'
 
     ];
+    public function testCases()
+    {
+        return $this->hasMany('App\TestCase');
+    }
 
     
 }
