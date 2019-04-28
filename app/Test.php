@@ -8,7 +8,7 @@ class Test extends Model
 {
     protected $fillable = [
 
-        'name', 'websiteURL','credit','tags','post_url'
+        'name', 'websiteURL','credit','tags','post_url','active','comment','testers','video',
 
     ];
     public function testCases()

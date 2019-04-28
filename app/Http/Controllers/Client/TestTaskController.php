@@ -11,10 +11,11 @@ class TestTaskController extends Controller
 {
     public function __construct(){
         $this->middleware(['auth:api','scope:client'])->only(['create']);
+        $this->middleware(['auth:api','scope:client'])->only(['setActive']);
     }
     public function create(Request $req){
         
-
+        
         
         $validator = Validator::make($req->all(), [
             'name' => 'required',
@@ -46,8 +47,11 @@ class TestTaskController extends Controller
         $testCases=$req->subtasks;
         
         foreach ($testCases as $testCase){
-            //question
-            //type
+
+            if($testCase['question'] == null){
+                $test->delete();
+                return $this->sendError('Validation Error.', "question musn't be null");       
+            }
             $test->testCases()->create([
                 "question" => $testCase['question'],
                 "type" => $testCase['type'],
@@ -55,5 +59,28 @@ class TestTaskController extends Controller
         }
 
         return $this->sendResponse($test->toArray(), 'Test created successfully.');
+    }
+    public function setActive(Request $req){
+        $validator = Validator::make($req->all(), [
+            'taskID' => 'required',
+            'active' => 'required|boolean',
+        ]);
+
+
+        if($validator->fails()){
+
+            return $this->sendError('Validation Error.', $validator->errors());       
+
+        }
+
+        $user = auth()->guard('client')->user();
+        $test = $user->tests()->find($req->taskID);
+        if (is_null($test)) {
+            return $this->sendError('Test not found or you dont have access to this test');
+        }
+
+        $test->active=$req->active;
+        $test->save();
+        return $this->sendResponse($test->active, 'Test updated successfully.');
     }
 }
