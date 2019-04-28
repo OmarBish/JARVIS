@@ -22,6 +22,7 @@ Route::get('/user', function (Request $request) {
     }else{
         return response()->json("unauthnticated", 401);
     }
+    /** */
     
 });
 
