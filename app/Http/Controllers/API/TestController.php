@@ -138,7 +138,7 @@ class TestController extends BaseController
 
             'credit' => 'required',
 
-            // 'tags' => 'required' 
+            'tsters' => 'min:1' 
 
         ]);
 
@@ -165,6 +165,9 @@ class TestController extends BaseController
         }
         if(isset($input['pst_url'])){
             $test->tags = $input['post_url'];
+        }
+        if(isset($input['testers'])){
+            $test->testers = $input['testers'];
         }
         
         $test->save();

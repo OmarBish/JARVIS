@@ -23,6 +23,11 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
         Route::post('login', 'Client\AuthController@login')->name('Client-Login');
         Route::get('logout', 'Client\AuthController@logout')->name('Client-Logout');
         Route::post('register', 'Client\AuthController@register')->name('Client-Logout');
+
+        /**
+         * resources
+         */
+        Route::post('/createtask', 'Client\TestTaskController@create')->name('Tester-Logout');
         Route::get('all', 'API\ClientController@all')->name('Client-Logout');
 
     });
@@ -46,7 +51,10 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
     Route::get('/google-callback', 'GoogleAuthController@handleProviderCallback');
     
 
-
+    // Route::get('/home', function (Request $request) {
+    //         return response()->json("unauth", 401);
+    // })->name('home');
+    
 
 
 
