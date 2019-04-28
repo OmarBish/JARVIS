@@ -38,6 +38,8 @@ Route::prefix('tester')->group(function () {
 });
 
 Route::get('paypal-confirm', 'PayPalController@confirm')->name('Client-Login');
+Route::get('/google-login', 'GoogleAuthController@redirectToProvider');
+Route::get('/google-callback', 'GoogleAuthController@handleProviderCallback');
 
 
 
