@@ -136,7 +136,7 @@ class ClientController extends BaseController
 
         $data['tasks']=$user->tests()->get();
         foreach ($data['tasks'] as $key => $test) {
-            $data['tasks'][$key]['subTasks']= $test->testCases()->get();
+            $data['tasks'][$key]['subtasks']= $test->testCases()->get();
             $data['tasks'][$key]['answers'] = $test->testResults()->get();
             foreach ($data['tasks'][$key]['answers'] as $answerKey => $answer) {
                 $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();

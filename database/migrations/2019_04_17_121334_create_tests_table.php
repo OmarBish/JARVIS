@@ -16,7 +16,7 @@ class CreateTestsTable extends Migration
         Schema::create('tests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('websiteUrl');
+            $table->string('websiteURL');
             $table->double('credit',10,2);
             $table->string('tags');
             $table->string('post_url')->nullable();

@@ -51,7 +51,7 @@ class TestController extends BaseController
 
             'name' => 'required',
 
-            'websiteUrl' => 'required',
+            'websiteURL' => 'required',
 
             'credit' => 'required',
             'post_url' => 'url',
@@ -134,7 +134,7 @@ class TestController extends BaseController
 
             'name' => 'required',
 
-            'websiteUrl' => 'required',
+            'websiteURL' => 'required',
 
             'credit' => 'required',
 
@@ -158,7 +158,7 @@ class TestController extends BaseController
 
         $test->name = $input['name'];
 
-        $test->websiteUrl = $input['websiteUrl'];
+        $test->websiteURL = $input['websiteURL'];
         $test->credit = $input['credit'];
         if(isset($input['tags'])){
             $test->tags = $input['tags'];
