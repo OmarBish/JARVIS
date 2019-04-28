@@ -15,7 +15,7 @@ class AuthController extends Controller
     public function __construct(){
             // $this->middleware('guest')->except();
             $this->middleware('guest:tester')->except('logout');
-            $this->middleware('auth:tester')->only('logout');
+            $this->middleware('auth:api')->only('logout');
     }
     public function login(Request $request)
     {
@@ -65,7 +65,6 @@ class AuthController extends Controller
     }
     public function logout(Request $request)
     {
-        
         auth()->guard('api')->user()->token()->revoke();
         return $this->sendResponse('logout succeded', 'Client logout successfully.');
     }
