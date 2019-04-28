@@ -16,7 +16,10 @@ class CreateTestResultsTable extends Migration
         Schema::create('test_results', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('videoURL');
+            $table->string('comment_text')->nullable();
             $table->integer('tester_id');
+            $table->integer('test_id');
+            $table->integer('rate')->default(0);
             $table->timestamps();
         });
     }

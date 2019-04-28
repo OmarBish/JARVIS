@@ -55,6 +55,7 @@ class TestController extends BaseController
 
             'credit' => 'required',
             'post_url' => 'url',
+            'testers' => 'required',
 
             'tags' => 'required'    
         ]);

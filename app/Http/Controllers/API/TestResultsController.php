@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 
 use App\Tester;
 use App\TestResult;
+use App\Test;
 use Auth;
 use Validator;
 
@@ -47,24 +48,31 @@ class TestResultsController extends Controller
      * POST /testResults
      */
 
-    public function store(Request $request)
+    public function store(Request $request,Test $test)
 
     {
         $input = $request->all();
 
         $validator = Validator::make($input, [
             //TODO set to active_url
-            'videoURL' => 'required|url' 
+            'videoURL' => 'required|url' ,
+            "comment_text" => 'required',
+            "rate" => "required"
         ]);
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
+        
         $user = auth()->guard('tester')->user();
         $testResult = $user->testResults()->create([
             'videoURL' => $input['videoURL'],
-            'tester_id' => $user->id
+            "comment_text" => $input['comment_text'],
+            'tester_id' => $user->id,
+            'test_id' => $test->id,
+            "rate"=> $input['rate']
         ]);
+        
 
         return $this->sendResponse($testResult->toArray(), 'Test created successfully.');        
     }

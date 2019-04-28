@@ -53,12 +53,12 @@ class Tester extends Authenticatable
     }
     public function updateRate()
     {
-        $testReviews=$this->testReviews();
+        $testResults=$this->testResults();
         $sum=$count=0;
 
-        foreach($testReviews as $testReview)
+        foreach($testResults as $testResult)
         {
-            $val=$testReview->testerRate;
+            $val=$testResult->rate;
             if($val !=0){
                 $count+=1;
                 $sum+=$val;

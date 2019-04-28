@@ -15,6 +15,10 @@ class Test extends Model
     {
         return $this->hasMany('App\TestCase');
     }
+    public function testResults()
+    {
+        return $this->hasMany('App\TestResult');
+    }
 
     
 }

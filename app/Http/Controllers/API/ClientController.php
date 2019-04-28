@@ -19,6 +19,7 @@ class ClientController extends BaseController
     public function __construct(){
         $this->middleware('auth:client')->except('store');
         $this->middleware('guest')->only('store');
+        $this->middleware(['auth:api','scope:client'])->only(['all']);
     }
     /**
      * Display a listing of the clients
@@ -125,5 +126,29 @@ class ClientController extends BaseController
         $client->delete();
 
         return  $this->sendResponse("success","client deleted");
+    }
+    public function all(Client  $client)
+    {
+        $user = auth()->guard('client')->user();
+        
+        
+        $data['points']=$user->credits;
+
+        $data['tasks']=$user->tests()->get();
+        foreach ($data['tasks'] as $key => $test) {
+            $data['tasks'][$key]['subTasks']= $test->testCases()->get();
+            $data['tasks'][$key]['answers'] = $test->testResults()->get();
+            foreach ($data['tasks'][$key]['answers'] as $answerKey => $answer) {
+                $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
+                foreach ($data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
+                    $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
+                }
+                
+            }
+        }
+        
+
+
+        return  $this->sendResponse($data,"client deleted");
     }
 }

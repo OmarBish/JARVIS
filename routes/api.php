@@ -32,7 +32,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::resource('test', 'API\TestController',['except' => ['create']]);
-Route::resource('testResult', 'API\TestResultsController',['except' => ['create']]);
+Route::resource('test/{test}/testResult', 'API\TestResultsController',['except' => ['create']]);
 Route::resource('testResult/{testResult}/testCaseAnswer', 'API\TestCaseAnswerController',['except' => ['create']]);
 Route::resource('test/{test}/testCase', 'API\TestCaseController',['except' => ['create']]);
 Route::resource('testReview', 'API\TestReviewController');

@@ -17,7 +17,9 @@ class CreateTestCasesAnswerTable extends Migration
             $table->bigIncrements('id');
             $table->string('question');
             $table->string('answer');
+            $table->integer('rate')->nullable();
             $table->integer('test_result_id');
+            $table->integer('test_case_id');
             $table->timestamps();
         });
     }

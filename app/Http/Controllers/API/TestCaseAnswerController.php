@@ -65,6 +65,7 @@ class TestCaseAnswerController extends Controller
                     //TODO set to active_url
                     'question' => 'required',
                     'answer' => 'required',
+                    "test_case_id" => 'required'
                 ]);
 
                 if($validator->fails()){
@@ -73,6 +74,7 @@ class TestCaseAnswerController extends Controller
                 $testCaseAnswer = $testResut->testCaseAnswers()->create([
                     "question"=>$input['question'],
                     "answer"=>$input['answer'],
+                    "test_case_id"=> $request->test_case_id
                 ]);
                 return $this->sendResponse($testCaseAnswer->toArray(), 'testCaseAnswer created successfully.');  
             }else{
@@ -126,18 +128,23 @@ class TestCaseAnswerController extends Controller
     {
         if(auth()->user()->tokenCan('tester')){
             $user = auth()->guard('tester')->user();
-            $input = $request->all();
-            $validator = Validator::make($input, [
-                'question' => 'required',
-                'answer' => 'required',
-            ]);
-            if($validator->fails()){
-                return $this->sendError('Validation Error.', $validator->errors());       
-            }
+            
             if($user->testResults()->find($testResut->id)){
-                $testCaseAnswer->question =$input['question'];
-                $testCaseAnswer->answer =$input['answer'];
-                $testCaseAnswer->save();
+                if($request->has('question')){
+                    $testCaseAnswer->question =$request->question;
+                }
+                if($request->has('answer')){
+                    $testCaseAnswer->answer =$request->answer;
+                }
+                if($request->has('rate')){
+                    $testCaseAnswer->rate =$request->rate;
+                    $testCaseAnswer->save();
+                    $testResut->updateRate();
+                    $user->updateRate();
+                }else{
+                    $testCaseAnswer->save();
+                }
+                
                 return $this->sendResponse($testCaseAnswer->toArray(), 'Test updated successfully.');
             }else{
                 return $this->sendError("Either you dont have access to this test case answer or it was deleted","client can't create test case answer" ,404);        
