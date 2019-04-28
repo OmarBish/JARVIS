@@ -23,7 +23,7 @@ class TestController extends BaseController
 
     public function index(Request $request)
     {   
-        $user = auth()->guard('tester')->user();
+        $user = auth()->guard('client')->user();
         $tests = $user->tests()->get();
         return $this->sendResponse($tests->toArray(), 'Tests retrieved successfully.');
     }
