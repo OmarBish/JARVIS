@@ -15,8 +15,13 @@ header('Access-Control-Allow-Origin:  *');
 |
 */
 
-Route::middleware('auth:client')->get('/user', function (Request $request) {
-    return $request->user()->token()->only(['user_id','scopes','revoked','expires_at']);
+Route::get('/user', function (Request $request) {
+    if($request->user()!=null){
+        return $request->user()->token()->only(['user_id','scopes','revoked','expires_at']);
+    }else{
+        return response()->json("unauthnticated", 401);
+    }
+    
 });
 
 
