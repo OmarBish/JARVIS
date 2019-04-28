@@ -138,6 +138,13 @@ class ClientController extends BaseController
         foreach ($data['tasks'] as $key => $test) {
             $data['tasks'][$key]['subtasks']= $test->testCases()->get();
             $data['tasks'][$key]['answers'] = $test->testResults()->get();
+            if (count($data['tasks'][$key]['answers']) == 0){
+                $data['tasks'][$key]['finished'] =  false;
+            }else if((count($data['tasks'][$key]['answers']) - $data['tasks'][$key]['testers'] == 0)){
+                $data['tasks'][$key]['finished'] =  false;
+            }else{
+                $data['tasks'][$key]['finished'] =  false;
+            }
             foreach ($data['tasks'][$key]['answers'] as $answerKey => $answer) {
                 $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
                 foreach ($data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
