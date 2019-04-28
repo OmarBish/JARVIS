@@ -16,13 +16,17 @@ header('Access-Control-Allow-Origin:  *');
 */
 
 Route::get('/user', function (Request $request) {
-    $user=auth()->guard('api')->user();
-    if($user  !=null){
-        return $user->token()->only(['user_id','scopes','revoked','expires_at']);
-    }else{
+    try{
+        $user=auth()->guard('api')->user();
+        if($user  != null){
+            return $user->token()->only(['user_id','scopes','revoked','expires_at']);
+        }else{
+            return response()->json("unauthnticated", 401);
+        }
+    }catch(Exception $e){
         return response()->json("unauthnticated", 401);
     }
-    /** */
+    
     
 });
 
