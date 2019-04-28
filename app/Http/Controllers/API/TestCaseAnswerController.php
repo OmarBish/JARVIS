@@ -20,8 +20,12 @@ class TestCaseAnswerController extends Controller
      */
     //TODO
     public function __construct(){
-        // $this->middleware(['auth:tester', 'auth:client','scope:tester,client']);
-        $this->middleware(['auth:tester', 'auth:client','scope:tester,client']);
+        $this->middleware(['auth:api','scope:tester,client'])->only(['index']);
+        $this->middleware(['auth:api','scope:tester'])->only(['store']);
+        $this->middleware(['auth:api','scope:client,tester'])->only(['show']);
+        $this->middleware(['auth:api','scope:tester'])->only(['update']);
+        $this->middleware(['auth:api','scope:tester'])->only(['destroy']);
+       
     }
     public function index(TestResult $testResut)
     {
