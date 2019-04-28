@@ -16,7 +16,7 @@ header('Access-Control-Allow-Origin:  *');
 */
 
 Route::middleware('auth:client')->get('/user', function (Request $request) {
-    return $request->user()->token();
+    return $request->user()->token()->only(['user_id','scopes','revoked','expires_at']);
 });
 
 
@@ -24,6 +24,7 @@ Route::resource('test', 'API\TestController',['except' => ['create']]);
 Route::resource('testResult', 'API\TestResultsController',['except' => ['create']]);
 Route::resource('testResult/{testResult}/testCaseAnswer', 'API\TestCaseAnswerController',['except' => ['create']]);
 Route::resource('test/{test}/testCase', 'API\TestCaseController',['except' => ['create']]);
+Route::resource('testReview', 'API\TestReviewController');
 
 Route::middleware('auth:api')->group( function () {
 

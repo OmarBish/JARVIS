@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         $tokenResult = $user->createToken('Personal Access Token',['tester']);
         $token = $tokenResult->token;
-
+        $token->expires_at = Carbon::now()->addHours(1);
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
 
