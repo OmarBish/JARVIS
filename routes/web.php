@@ -43,6 +43,11 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
         Route::post('login', 'Tester\AuthController@login')->name('Tester-Login');
         Route::post('/register', 'Tester\AuthController@register')->name('Tester-Register');
         Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
+        /**
+         * resources
+         */
+        Route::get('all', 'API\TesterController@all');
+
     });
     Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
     

@@ -24,6 +24,7 @@ class CreateTestsTable extends Migration
             $table->boolean('video')->nullable()->default(false);
             $table->boolean('comment')->nullable()->default(false);
             $table->boolean('active')->nullable()->default(false);
+            $table->boolean('availabe')->default(true);
             $table->integer('testers')->default(0);
             $table->timestamps();
         });

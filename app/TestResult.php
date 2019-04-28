@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TestResult extends Model
 {
     protected $fillable = [
-        'videoURL','test_id','tester_id','comment_text','rate'
+        'videoURL','test_id','tester_id','comment_text','rate','status'
     ];
 
     public function testCaseAnswers()

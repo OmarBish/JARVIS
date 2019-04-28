@@ -19,6 +19,7 @@ class CreateTestResultsTable extends Migration
             $table->string('comment_text')->nullable();
             $table->integer('tester_id');
             $table->integer('test_id');
+            $table->string('status')->default("working");
             $table->integer('rate')->default(0);
             $table->timestamps();
         });

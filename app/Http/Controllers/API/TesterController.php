@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Tester;
+use App\Test;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,7 @@ class TesterController extends BaseController
     public function __construct(){
         $this->middleware('guest')->only('store');
         $this->middleware('auth:tester')->except('store');
+        $this->middleware(['auth:api','scope:tester'])->only(['all']);
     }
     /**
      * Display a listing of the clients
@@ -123,5 +125,93 @@ class TesterController extends BaseController
         $tester->delete();
 
         return  $this->sendResponse("success","tester deleted");
+    }
+    public function all(Request  $req)
+    {
+        $user = auth()->guard('tester')->user();
+        $data['points']=$user->credits;
+        $testResults = $user->testResults()->get();
+        $data['activeTasks']=Test::all();
+       
+        foreach( $testResults as $key => $testResult){
+            $test=$testResult->test()->get()->first();
+            if($data['activeTasks']->find($test->id)){
+                $data['activeTasks']=$data['activeTasks']->except($test->id);
+            }
+            if($testResult->status=='working'){
+                $data['tasks'][$key]=$test;
+            }else if($testResult->status=='completed'){
+                $data['completedTasks'][$key]=$test;
+            }
+        }
+        
+        
+            
+        
+        if(isset($data['tasks'])){
+            foreach ($data['tasks'] as $key => $test) {
+                $data['tasks'][$key]['subtasks']= $test->testCases()->get();
+                $data['tasks'][$key]['answers'] = $test->testResults()->get();
+                if (count($data['tasks'][$key]['answers']) == 0){
+                    $data['tasks'][$key]['finished'] =  false;
+                }else if((count($data['tasks'][$key]['answers']) - $data['tasks'][$key]['testers'] == 0)){
+                    $data['tasks'][$key]['finished'] =  false;
+                }else{
+                    $data['tasks'][$key]['finished'] =  false;
+                }
+                foreach ($data['tasks'][$key]['answers'] as $answerKey => $answer) {
+                    $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
+                    foreach ($data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
+                        $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
+                    }
+                }
+            }
+        }else{
+            $data['tasks']=[];
+        }
+        if(isset($data['completedTasks'])){
+            foreach ($data['completedTasks'] as $key => $test) {
+                $data['completedTasks'][$key]['subtasks']= $test->testCases()->get();
+                $data['completedTasks'][$key]['answers'] = $test->testResults()->get();
+                if (count($data['completedTasks'][$key]['answers']) == 0){
+                    $data['completedTasks'][$key]['finished'] =  false;
+                }else if((count($data['completedTasks'][$key]['answers']) - $data['completedTasks'][$key]['testers'] == 0)){
+                    $data['completedTasks'][$key]['finished'] =  false;
+                }else{
+                    $data['completedTasks'][$key]['finished'] =  false;
+                }
+                foreach ($data['completedTasks'][$key]['answers'] as $answerKey => $answer) {
+                    $data['completedTasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
+                    foreach ($data['completedTasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
+                        $data['completedTasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
+                    }
+                }
+            }
+        }else{
+            $data['completedTasks']=[];
+        }
+        if(isset($data['activeTasks'])){
+            foreach ($data['activeTasks'] as $key => $test) {
+                $data['activeTasks'][$key]['subtasks']= $test->testCases()->get();
+                $data['activeTasks'][$key]['answers'] = $test->testResults()->get();
+                if (count($data['activeTasks'][$key]['answers']) == 0){
+                    $data['activeTasks'][$key]['finished'] =  false;
+                }else if((count($data['activeTasks'][$key]['answers']) - $data['activeTasks'][$key]['testers'] == 0)){
+                    $data['activeTasks'][$key]['finished'] =  false;
+                }else{
+                    $data['activeTasks'][$key]['finished'] =  false;
+                }
+                foreach ($data['activeTasks'][$key]['answers'] as $answerKey => $answer) {
+                    $data['activeTasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
+                    foreach ($data['activeTasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
+                        $data['activeTasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
+                    }
+                }
+            }
+        }else{
+            $data['activeTasks']=[];
+        }   
+        
+        return  $this->sendResponse($data,"client deleted");
     }
 }

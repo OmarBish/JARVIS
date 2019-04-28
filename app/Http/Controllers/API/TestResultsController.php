@@ -57,7 +57,8 @@ class TestResultsController extends Controller
             //TODO set to active_url
             'videoURL' => 'required|url' ,
             "comment_text" => 'required',
-            "rate" => "required"
+            "rate" => "required",
+            "status" => "required",
         ]);
 
         if($validator->fails()){
@@ -70,7 +71,8 @@ class TestResultsController extends Controller
             "comment_text" => $input['comment_text'],
             'tester_id' => $user->id,
             'test_id' => $test->id,
-            "rate"=> $input['rate']
+            "rate"=> $input['rate'],
+            "status" => $input['status'],
         ]);
         
 
@@ -113,7 +115,7 @@ class TestResultsController extends Controller
      * PATCH /testResults/$id
      */
 
-    public function update(Request $request, TestResult $testResult)
+    public function update(Request $request, Test $test,TestResult $testResult)
 
     {
         
@@ -137,11 +139,11 @@ class TestResultsController extends Controller
 
 
         $testResult->videoURL =$input['videoURL'];
-        
 
+        if($request->has('status')){
+            $testResult->status =$input['status'];
+        }
         $testResult->save();
-
-
         return $this->sendResponse($testResult->toArray(), 'Test updated successfully.');
 
     }
