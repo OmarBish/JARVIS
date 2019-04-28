@@ -36,6 +36,8 @@ Route::prefix('tester')->group(function () {
     Route::post('/register', 'Tester\AuthController@register')->name('Tester-Register');
     Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
 });
+Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
+
 
 Route::get('paypal-confirm', 'PayPalController@confirm')->name('Client-Login');
 Route::get('/google-login', 'GoogleAuthController@redirectToProvider');
