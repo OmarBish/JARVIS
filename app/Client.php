@@ -40,16 +40,24 @@ class Client extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    public $type = "client";
+    
     /**
      * extra relations
      */
-    public $type = "client";
+
+    
 
     public function tests()
     {
         return $this->hasMany('App\Test');
     }
+
+    public function testReviews()
+    {
+        return $this->hasMany('App\TestReview');
+    }
+
      
     
 }

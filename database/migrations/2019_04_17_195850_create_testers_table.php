@@ -22,6 +22,7 @@ class CreateTestersTable extends Migration
             $table->string('password');
             $table->unsignedInteger('credits')->default(0);
             $table->text('about_me')->nullable();
+            $table->double('rate')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

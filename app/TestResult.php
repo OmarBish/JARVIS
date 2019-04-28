@@ -14,4 +14,12 @@ class TestResult extends Model
     {
         return $this->hasMany('App\TestCaseAnswer');
     }
+    public function test()
+    {
+        return $this->belongsTo('App\Test');
+    }
+    public function testReview()
+    {
+        return $this->hasOne('App\TestReview');
+    }
 }

@@ -17,7 +17,7 @@ class Tester extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password','rate'
     ];
 
     /**
@@ -46,5 +46,30 @@ class Tester extends Authenticatable
     public function tests()
     {
         return $this->hasMany('App\Test','client_id');
+    }
+    public function testReviews()
+    {
+        return $this->hasMany('App\TestReview','tester_id');
+    }
+    public function updateRate()
+    {
+        $testReviews=$this->testReviews();
+        $sum=$count=0;
+
+        foreach($testReviews as $testReview)
+        {
+            $val=$testReview->testerRate;
+            if($val !=0){
+                $count+=1;
+                $sum+=$val;
+            }
+        }
+        if($count != 0){
+            $this->rate=$sum/$count;
+        }else{
+            $this->rate = 0;
+        }
+        $this->save();
+        return $this->rate;
     }
 }

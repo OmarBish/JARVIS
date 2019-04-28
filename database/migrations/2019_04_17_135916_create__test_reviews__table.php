@@ -13,8 +13,12 @@ class CreateTestReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('_test_reviews_', function (Blueprint $table) {
+        Schema::create('test_reviews', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('feedback')->nullable();
+            $table->string('testerRate')->nullable();
+            $table->integer('client_id');
+            $table->integer('tester_id')->default(-1);
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateTestReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_test_reviews_');
+        Schema::dropIfExists('test_reviews');
     }
 }
