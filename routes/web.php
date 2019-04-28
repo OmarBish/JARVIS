@@ -21,6 +21,7 @@
         Route::get('logout', 'Client\AuthController@logout')->name('Client-Logout');
         Route::post('register', 'Client\AuthController@register')->name('Client-Logout');
         Route::get('all', 'API\ClientController@all')->name('Client-Logout');
+        
     });
     
     
