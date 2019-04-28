@@ -16,8 +16,9 @@ header('Access-Control-Allow-Origin:  *');
 */
 
 Route::get('/user', function (Request $request) {
-    if($request->user()!=null){
-        return $request->user()->token()->only(['user_id','scopes','revoked','expires_at']);
+    $user=auth()->guard('api')->user();
+    if($user  !=null){
+        return $user->token()->only(['user_id','scopes','revoked','expires_at']);
     }else{
         return response()->json("unauthnticated", 401);
     }
