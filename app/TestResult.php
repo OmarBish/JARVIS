@@ -18,6 +18,10 @@ class TestResult extends Model
     {
         return $this->belongsTo('App\Test');
     }
+    public function tester()
+    {
+        return $this->belongsTo('App\Tester');
+    }
     public function testReview()
     {
         return $this->hasOne('App\TestReview');
