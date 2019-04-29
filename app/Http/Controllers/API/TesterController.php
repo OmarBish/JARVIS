@@ -136,7 +136,8 @@ class TesterController extends BaseController
         $data['rate']=$user->rate;
         
         $data['activeTasks']=Test::all();
-       
+        $testResults = $user->testResults()->get();
+
         foreach( $testResults as $key => $testResult){
             $test=$testResult->test()->get()->first();
             if($data['activeTasks']->find($test->id)){
