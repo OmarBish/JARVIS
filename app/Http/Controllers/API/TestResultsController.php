@@ -74,8 +74,8 @@ class TestResultsController extends Controller
             "rate"=> $input['rate'],
             "status" => $input['status'],
         ]);
+        $user->updateRate();
         
-
         return $this->sendResponse($testResult->toArray(), 'Test created successfully.');        
     }
         /**

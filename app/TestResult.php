@@ -28,7 +28,7 @@ class TestResult extends Model
     }
     public function updateRate()
     {
-        $testCaseAnswers=$this->testCaseAnswers();
+        $testCaseAnswers=$this->testCaseAnswers()->get();
         $sum=$count=0;
 
         foreach($testCaseAnswers as $testCaseAnswer)

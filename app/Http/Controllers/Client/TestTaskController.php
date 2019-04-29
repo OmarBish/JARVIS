@@ -116,11 +116,14 @@ class TestTaskController extends Controller
             if(is_null( $testCaseAnswer)){
                 return $this->sendError('this test answer dosen\'t belong to this test result');
             }
-            
             $testCaseAnswer->clientRate=$subtaskAnswer['subtaskRating'];
             $testCaseAnswer->save();
             
         }
+        
+        $testResult->updateRate();
+        $testResult->tester()->get()->first()->updateRate();
+        
         
         return $this->sendResponse($testResult->testCaseAnswers()->get()->toArray(), 'Test updated successfully.');
     }
