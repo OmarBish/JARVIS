@@ -33,7 +33,7 @@ class TestResult extends Model
 
         foreach($testCaseAnswers as $testCaseAnswer)
         {
-            $val=$testCaseAnswer->rate;
+            $val=$testCaseAnswer->clientRate;
             if($val !=0){
                 $count+=1;
                 $sum+=$val;

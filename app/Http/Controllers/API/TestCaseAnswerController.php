@@ -67,7 +67,6 @@ class TestCaseAnswerController extends Controller
 
                 $validator = Validator::make($input, [
                     //TODO set to active_url
-                    'question' => 'required',
                     'answer' => 'required',
                     "test_case_id" => 'required'
                 ]);
@@ -76,7 +75,6 @@ class TestCaseAnswerController extends Controller
                     return $this->sendError('Validation Error.', $validator->errors());       
                 }
                 $testCaseAnswer = $testResut->testCaseAnswers()->create([
-                    "question"=>$input['question'],
                     "answer"=>$input['answer'],
                     "test_case_id"=> $request->test_case_id
                 ]);
@@ -134,14 +132,12 @@ class TestCaseAnswerController extends Controller
             $user = auth()->guard('tester')->user();
             
             if($user->testResults()->find($testResut->id)){
-                if($request->has('question')){
-                    $testCaseAnswer->question =$request->question;
-                }
+                
                 if($request->has('answer')){
                     $testCaseAnswer->answer =$request->answer;
                 }
-                if($request->has('rate')){
-                    $testCaseAnswer->rate =$request->rate;
+                if($request->has('userRate')){
+                    $testCaseAnswer->userRate =$request->userRate;
                     $testCaseAnswer->save();
                     $testResut->updateRate();
                     $user->updateRate();

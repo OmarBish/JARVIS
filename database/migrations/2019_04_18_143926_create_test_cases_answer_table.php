@@ -15,9 +15,9 @@ class CreateTestCasesAnswerTable extends Migration
     {
         Schema::create('test_case_answers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('question');
+            $table->integer('clientRate')->nullable();
+            $table->integer('userRate')->nullable();
             $table->string('answer');
-            $table->integer('rate')->nullable();
             $table->integer('test_result_id');
             $table->integer('test_case_id');
             $table->timestamps();
