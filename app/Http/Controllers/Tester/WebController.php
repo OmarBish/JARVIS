@@ -32,7 +32,7 @@ class WebController extends Controller
             }
             $testResult->update([
                 'status' =>$status,
-                'video_link'=>$req->video_link,
+                'videoURL'=>$req->video_link,
                 'comment_text'=>$req->comment_text
             ]);
             foreach($req->subtask_answers as $key=>$subtaskAnswer){
@@ -48,7 +48,7 @@ class WebController extends Controller
 
         }else{
             $user->testResults()->create([
-                'video_link'=>$req->video_link,
+                'videoURL'=>$req->video_link,
                 'comment_text'=>$req->comment_text
             ]);
             foreach($req->subtask_answers as $key=>$subtaskAnswer){
@@ -57,9 +57,7 @@ class WebController extends Controller
                     'userRate'=>$subtaskAnswer['subtaskRating'],
                     'answer'=>$subtaskAnswer['subtaskAnswer']
                 ]);
-                if(is_null( $testCaseAnswer)){
-                    return $this->sendError('this test answer dosen\'t belong to this test result');
-                }
+                
             }
             return $this->sendResponse("", 'Test answer created successfully updated successfully.');
 
