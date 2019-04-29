@@ -109,9 +109,8 @@ class TestTaskController extends Controller
         if($testResult->test()->get()->first()->id != $test->id){
             return $this->sendError('this test result dosen\'t belong to this test');
         }
-        
         foreach($req->subtask_answers as $key=>$subtaskAnswer){
-            $testCaseAnswer = $testResult->testCaseAnswers()->where("test_case_id",$subtaskAnswer['subtaskID'])->first();
+            $testCaseAnswer = $testResult->testCaseAnswers()->get()->where("test_case_id",$subtaskAnswer['subtaskID'])->first();
             
             if(is_null( $testCaseAnswer)){
                 return $this->sendError('this test answer dosen\'t belong to this test result');
@@ -122,9 +121,11 @@ class TestTaskController extends Controller
         }
         
         $testResult->updateRate();
-        $testResult->tester()->get()->first()->updateRate();
+        $tester=$testResult->tester()->get()->first();
+        $tester->updateRate();
+        $tester->updateCredits($test,$user);
         
         
-        return $this->sendResponse($testResult->testCaseAnswers()->get()->toArray(), 'Test updated successfully.');
+        return $this->sendResponse($testResult->testCaseAnswers()->get()->toArray(), 'review submited successfully.');
     }
 }

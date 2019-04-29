@@ -17,7 +17,7 @@ class Tester extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','rate'
+        'name', 'email', 'password','rate','credits'
     ];
 
     /**
@@ -74,5 +74,13 @@ class Tester extends Authenticatable
         
         $this->save();
         return $this->rate;
+    }
+    public function updateCredits(\App\Test $test,\App\Client $client){
+        $numberOfTesters=$test->testers;
+        $testCredits = $test->credit;
+        $this->credits += ($testCredits/$numberOfTesters);
+        $this->save();
+        $client->credits -= ($testCredits/$numberOfTesters);
+        $client->save();
     }
 }
