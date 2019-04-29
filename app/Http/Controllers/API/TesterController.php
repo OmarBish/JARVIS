@@ -130,7 +130,11 @@ class TesterController extends BaseController
     {
         $user = auth()->guard('tester')->user();
         $data['points']=$user->credits;
-        $testResults = $user->testResults()->get();
+        $data['name']=$user->name;
+        $data['email']=$user->email;
+        $data['about_me']=$user->about_me;
+        $data['rate']=$user->rate;
+        
         $data['activeTasks']=Test::all();
        
         foreach( $testResults as $key => $testResult){

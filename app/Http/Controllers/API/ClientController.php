@@ -134,6 +134,10 @@ class ClientController extends BaseController
         
         $data['points']=$user->credits;
 
+        $data['name']=$user->name;
+        $data['email']=$user->email;
+        $data['about_me']=$user->about_me;
+
         $data['tasks']=$user->tests()->get();
         foreach ($data['tasks'] as $key => $test) {
             $data['tasks'][$key]['subtasks']= $test->testCases()->get();
