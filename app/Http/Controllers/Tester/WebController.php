@@ -22,9 +22,12 @@ class WebController extends Controller
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
+        
         $user = auth()->guard('tester')->user();
+        
         $testResult = $user->testResults()->where('test_id',$req->taskID)->get()->first();
-        if($testResult){
+        
+        if(!is_null($testResult)){
             if($req->is_submit){
                 $status = 'completed';
             }else{
@@ -37,9 +40,6 @@ class WebController extends Controller
             ]);
             foreach($req->subtask_answers as $key=>$subtaskAnswer){
                 $testCaseAnswer = $testResult->testCaseAnswers()->where('test_case_id',$subtaskAnswer['subtaskID'])->get()->first();
-                if(is_null( $testCaseAnswer)){
-                    return $this->sendError('this test answer dosen\'t belong to this test result');
-                }
                 $testCaseAnswer->userRate=$subtaskAnswer['subtaskRating'];
                 $testCaseAnswer->answer=$subtaskAnswer['subtaskAnswer'];
                 $testCaseAnswer->save();
@@ -47,10 +47,14 @@ class WebController extends Controller
             return $this->sendResponse("", 'Test answer updated successfully updated successfully.');
 
         }else{
-            $user->testResults()->create([
+            
+            $testResult=$user->testResults()->create([
                 'videoURL'=>$req->video_link,
-                'comment_text'=>$req->comment_text
+                'comment_text'=>$req->comment_text,
+                'test_id'=>$req->taskID,
+                'tester_id'=>$user->id
             ]);
+            dd($testResult->toArray());
             foreach($req->subtask_answers as $key=>$subtaskAnswer){
                 $testCaseAnswer = $testResult->testCaseAnswers()->create([
                     'test_case_id'=>$subtaskAnswer['subtaskID'],
