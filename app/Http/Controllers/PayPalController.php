@@ -14,6 +14,17 @@ class PayPalController extends Controller
         
         $client = PayPalClient::client();
         $response = $client->execute(new OrdersGetRequest($orderId));
+        $tottal=$response->result->transactions->amount->total;
+        if($request->type=="client"){
+            $user=Client::find($request->user_id);
+            $user->credit+=$tottal*10;
+            $user->save();
+        }else{
+            $user=Tester::find($request->user_id);
+            $user->credit+=$tottal*10;
+            $user->save();
+        }
+        
         return $this->sendResponse('result',$response->result->status);
     }
 }
