@@ -64,7 +64,23 @@ class WebController extends Controller
             return $this->sendResponse("", 'Test answer created successfully updated successfully.');
 
         }
-
-        
+    }
+    public function addtest(Request $req){
+        $validator = Validator::make($req->all(), [
+            'taskID' => 'required',
+        ]);
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+        $user = auth()->guard('tester')->user();
+        $testResult = $user->testResults()->where('test_id',$req->taskID)->get()->first();
+        if($testResult){
+            return $this->sendError('you already applied to this test');       
+        }
+        $user->testResults()->create([
+            'videoURL'=>'',
+            'test_id'=>$req->taskID,
+        ]);
+        return $this->sendResponse("", 'Test result created successfully ');
     }
 }

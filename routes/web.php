@@ -49,6 +49,7 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
          */
         Route::get('all', 'API\TesterController@all');
         Route::post('sendanswer', 'Tester\WebController@sendAnswer');
+        Route::post('addtest', 'Tester\WebController@addTest');
 
     });
     Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
