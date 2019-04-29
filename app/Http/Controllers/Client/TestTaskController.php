@@ -24,7 +24,9 @@ class TestTaskController extends Controller
             'websiteURL' => 'required',
             'credit' => 'required',
             'post_url' => 'url',
-            'testers' => 'required'
+            'testers' => 'required',
+            'comment'=> 'boolean',
+            'video' => 'boolean'
         ]);
 
 
@@ -62,7 +64,7 @@ class TestTaskController extends Controller
                 "type" => $testCase['type'],
             ]);
         }
-
+        // return $this->sendResponse(["test"=>$test->toArray(),"testcases"=>$test->testCases()->get()->toArray()], 'Test created successfully.');
         return $this->sendResponse($test->toArray(), 'Test created successfully.');
     }
     public function setActive(Request $req){
@@ -103,17 +105,17 @@ class TestTaskController extends Controller
             return $this->sendError('Test not found or you dont have access to this test');
         }
         $testResult=TestResult::find($req->answerID)->first();
-        if($testResult->id != $test->id){
+        if($testResult->test()->id != $test->id){
             return $this->sendError('this test result dosen\'t belong to this test');
         }
         foreach($req->subtask_answers as $key=>$subtaskAnswer){
-            $testCaseAnswer = $testResult->testCaseAnswers()->find($subtaskAnswer['subtaskID']);
+            $testCaseAnswer = $testResult->testCaseAnswers()->where("test_case_id",$subtaskAnswer['subtaskID'])->first();
             if(is_null( $testCaseAnswer)){
                 return $this->sendError('this test answer dosen\'t belong to this test result');
             }
-            $testCaseAnswer->rate=$subtaskAnswer['subtaskRating'];
+            $testCaseAnswer->clientRate=$subtaskAnswer['subtaskRating'];
             $testCaseAnswer->save();
         }
-        return $this->sendResponse("", 'Test updated successfully.');
+        return $this->sendResponse($testResult->testCaseAnswers()->get()->get(), 'Test updated successfully.');
     }
 }
