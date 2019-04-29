@@ -77,7 +77,7 @@ class WebController extends Controller
         $user = auth()->guard('tester')->user();
         $testResult = $user->testResults()->where('test_id',$req->taskID)->get()->first();
         if($testResult){
-            return $this->sendResponse("",'you already applied to this test');       
+            return $this->sendError('you already applied to this test');       
         }
         $user->testResults()->create([
             'videoURL'=>'',
