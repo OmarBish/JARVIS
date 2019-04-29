@@ -18,8 +18,6 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
         /**
          * auth
          */
-        Route::post('password/email', 'Client\ForgotPasswordController@sendEmail')->name('password.email');
-        Route::post('password/reset', 'Client\ResetPasswordController@resetEmail')->name('password.update');
         Route::post('login', 'Client\AuthController@login')->name('Client-Login');
         Route::get('logout', 'Client\AuthController@logout')->name('Client-Logout');
         Route::post('register', 'Client\AuthController@register')->name('Client-Logout');
@@ -39,8 +37,8 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
         /**
          * auth
          */
-        Route::post('password/email', 'Tester\ForgotPasswordController@sendEmail')->name('password.email');
-        Route::post('password/reset', 'Tester\ResetPasswordController@resetEmail')->name('password.update');
+        // Route::post('password/email', 'Tester\ForgotPasswordController@sendEmail')->name('password.email');
+        // Route::post('password/reset', 'Tester\ResetPasswordController@resetEmail')->name('password.update');
         Route::post('login', 'Tester\AuthController@login')->name('Tester-Login');
         Route::post('/register', 'Tester\AuthController@register')->name('Tester-Register');
         Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
@@ -53,7 +51,10 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
 
     });
     Route::get('logout', 'Tester\AuthController@logout')->name('Tester-Logout');
-    
+    Route::post('reset/email', 'Client\ForgotPasswordController@sendEmail');
+    // Route::post('reset/code', 'Client\ForgotPasswordController@sendCode');
+    Route::post('reset/password', 'Client\ResetPasswordController@resetEmail');
+
     
     Route::get('paypal-confirm', 'PayPalController@confirm')->name('Client-Login');
     Route::get('/google-login', 'GoogleAuthController@redirectToProvider');

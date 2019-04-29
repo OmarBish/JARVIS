@@ -55,9 +55,7 @@ class ResetPasswordController extends Controller
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
+        
         $user = Client::where('email', $request->input('email'))->first();
         if(!isset($user)){
             return $this->sendError('invalid email', "email dosent exist");
@@ -68,9 +66,6 @@ class ResetPasswordController extends Controller
                 $this->resetPassword($user, $password);
             }
         );
-       
-
-        
         return $response == Password::PASSWORD_RESET
                     ? $this->sendResponse('', 'password successfuly changed')
                     : $this->sendError('invalid token', trans($response)); 
