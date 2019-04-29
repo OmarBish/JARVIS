@@ -147,10 +147,6 @@ class ClientController extends BaseController
             }
             foreach ($data['tasks'][$key]['answers'] as $answerKey => $answer) {
                 $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
-                foreach ($data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
-                    $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
-                }
-                
             }
         }
         

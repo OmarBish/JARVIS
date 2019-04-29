@@ -161,9 +161,7 @@ class TesterController extends BaseController
                 }
                 foreach ($data['tasks'][$key]['answers'] as $answerKey => $answer) {
                     $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
-                    foreach ($data['tasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
-                        $data['tasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
-                    }
+                    
                 }
             }
         }else{
@@ -182,9 +180,7 @@ class TesterController extends BaseController
                 }
                 foreach ($data['completedTasks'][$key]['answers'] as $answerKey => $answer) {
                     $data['completedTasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
-                    foreach ($data['completedTasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
-                        $data['completedTasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
-                    }
+                    
                 }
             }
         }else{
@@ -203,9 +199,7 @@ class TesterController extends BaseController
                 }
                 foreach ($data['activeTasks'][$key]['answers'] as $answerKey => $answer) {
                     $data['activeTasks'][$key]['answers'][$answerKey]['subtask_answers'] = $answer->testCaseAnswers()->get();
-                    foreach ($data['activeTasks'][$key]['answers'][$answerKey]['subtask_answers'] as $testCaseAnswerKey => $testCaseAnswer) {
-                        $data['activeTasks'][$key]['answers'][$answerKey]['subtask_answers'][$testCaseAnswerKey]['subTaskRating'] = 5;
-                    }
+                    
                 }
             }
         }else{

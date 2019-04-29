@@ -27,7 +27,8 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
         /**
          * resources
          */
-        Route::post('/createtask', 'Client\TestTaskController@create')->name('Tester-Logout');
+        Route::post('/createtask', 'Client\TestTaskController@create');
+        Route::post('/reviewanswer', 'Client\TestTaskController@review');
         Route::post('/settaskactive', 'Client\TestTaskController@setActive')->name('Client-Login');
         Route::get('all', 'API\ClientController@all')->name('Client-Logout');
 

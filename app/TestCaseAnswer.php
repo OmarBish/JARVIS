@@ -14,4 +14,5 @@ class TestCaseAnswer extends Model
         return $this->belongsTo('App\TestCase');
     }
     
+    
 }
