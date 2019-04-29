@@ -44,7 +44,7 @@ class WebController extends Controller
                 $testCaseAnswer->answer=$subtaskAnswer['subtaskAnswer'];
                 $testCaseAnswer->save();
             }
-            return $this->sendResponse("", 'Test answer updated successfully updated successfully.');
+            return $this->sendResponse([$testResult->testCaseAnswers()->get()->toArray(),$testResult->toArray()], 'Test answer updated successfully updated successfully.');
 
         }else{
             
@@ -54,7 +54,6 @@ class WebController extends Controller
                 'test_id'=>$req->taskID,
                 'tester_id'=>$user->id
             ]);
-            dd($testResult->toArray());
             foreach($req->subtask_answers as $key=>$subtaskAnswer){
                 $testCaseAnswer = $testResult->testCaseAnswers()->create([
                     'test_case_id'=>$subtaskAnswer['subtaskID'],
@@ -63,6 +62,7 @@ class WebController extends Controller
                 ]);
                 
             }
+            // return $this->sendResponse($testResult->testCaseAnswers()->get()->toArray(), 'Test answer created successfully updated successfully.');
             return $this->sendResponse("", 'Test answer created successfully updated successfully.');
 
         }
