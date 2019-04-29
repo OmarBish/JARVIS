@@ -19,7 +19,8 @@ Route::get('/user', function (Request $request) {
     try{
         $user=auth()->guard('api')->user();
         if($user  != null){
-            return $user->token()->only(['user_id','scopes','revoked','expires_at']);
+            return ['token'=>$user->token()->only(['user_id','scopes','revoked','expires_at'
+                    ]),'user'=>$user];
         }else{
             return response()->json("unauthnticated", 401);
         }
