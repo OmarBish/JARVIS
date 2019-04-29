@@ -35,6 +35,9 @@ class TestTaskController extends Controller
         }
 
         $user = auth()->guard('client')->user();
+        if ($user->credits - $req->credit < 0){
+            return $this->sendError('insufficient credits.');       
+        }
         $test = $user->tests()->create([
             "comment" => $req->comment,
             "credit" => $req->credit,
@@ -92,9 +95,7 @@ class TestTaskController extends Controller
             'subtask_answers' => 'required',
         ]);
         if($validator->fails()){
-
             return $this->sendError('Validation Error.', $validator->errors());       
-
         }
         $user = auth()->guard('client')->user();
         $test = $user->tests()->find($req->taskID);
