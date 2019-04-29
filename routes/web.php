@@ -18,13 +18,17 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
         /**
          * auth
          */
+        //pass
         Route::post('login', 'Client\AuthController@login')->name('Client-Login');
+        //pass
         Route::get('logout', 'Client\AuthController@logout')->name('Client-Logout');
+        //pass
         Route::post('register', 'Client\AuthController@register')->name('Client-Logout');
 
         /**
          * resources
          */
+        //pass
         Route::post('/createtask', 'Client\TestTaskController@create');
         Route::post('/reviewanswer', 'Client\TestTaskController@review');
         Route::post('/settaskactive', 'Client\TestTaskController@setActive')->name('Client-Login');
@@ -46,7 +50,9 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
          * resources
          */
         Route::get('all', 'API\TesterController@all');
+        //pass
         Route::post('sendanswer', 'Tester\WebController@sendAnswer');
+        //pass
         Route::post('addtest', 'Tester\WebController@addTest');
 
     });
