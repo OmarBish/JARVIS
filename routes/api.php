@@ -20,7 +20,7 @@ Route::get('/user', function (Request $request) {
         if(auth()->guard('api')->user()==null){
             return response()->json("unauthnticated", 401);
         }
-        if(auth()->guard('api')->user()->tokenCan('client')){
+        if(auth()->guard('tester')->user()->tokenCan('client')){
             $user=auth()->guard('client')->user();
             if($user  != null){
                 return ['token'=>$user->token()->only(['user_id','scopes','revoked','expires_at'
