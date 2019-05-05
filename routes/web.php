@@ -65,8 +65,13 @@ header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Autho
     Route::get('paypal-confirm', 'PayPalController@confirm')->name('Client-Login');
     Route::get('/google-login', 'GoogleAuthController@redirectToProvider');
     Route::get('/google-callback', 'GoogleAuthController@handleProviderCallback');
+    Route::post('/SFreq', function (Request $request) {
+        
+        return response()->json($request->all(), 401);
+            
+        
+    });
     
-
     // Route::get('/home', function (Request $request) {
     //         return response()->json("unauth", 401);
     // })->name('home');
