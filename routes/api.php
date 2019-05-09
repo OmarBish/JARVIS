@@ -17,7 +17,7 @@ header('Access-Control-Allow-Origin:  *');
 
 Route::get('/user', function (Request $request) {
     try{
-        if(auth()->guard('api')->user()==null){
+        if(auth()->guard('tester')->user()==null){
             return response()->json("unauthnticated", 401);
         }
         if(auth()->guard('tester')->user()->tokenCan('client')){
@@ -50,7 +50,7 @@ Route::resource('test', 'API\TestController',['except' => ['create']]);
 Route::resource('test/{test}/testResult', 'API\TestResultsController',['except' => ['create']]);
 Route::resource('testResult/{testResult}/testCaseAnswer', 'API\TestCaseAnswerController',['except' => ['create']]);
 Route::resource('test/{test}/testCase', 'API\TestCaseController',['except' => ['create']]);
-Route::resource('testReview', 'API\TestReviewController');
+Route::resource('test/{test}/testReview', 'API\TestReviewController');
 
 Route::middleware('auth:api')->group( function () {
 
